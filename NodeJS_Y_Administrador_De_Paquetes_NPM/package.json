@@ -1,0 +1,12 @@
+{
+  "name": "nodejs_y_administrador_de_paquetes_npm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
