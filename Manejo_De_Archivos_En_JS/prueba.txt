@@ -1,0 +1,1 @@
+Esto lo estoy redactando en un WRITE Data agregada con el operador APPEND

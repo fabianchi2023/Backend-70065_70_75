@@ -1,6 +1,6 @@
 //importacion de dependencias:
 // const fs = require("fs") // => Para utilizacion de los metodos de manera sincronica
-const fs = require("fs").promises // => Para utilizacion de funciones con promsas
+// const fs = require("fs").promises // => Para utilizacion de funciones con promsas
 
 //writeFileSync = Escritura de un archivo de manera sincronica
 //readFileSync = Lectura de un archivo de manera sincronica
@@ -76,4 +76,28 @@ const fs = require("fs").promises // => Para utilizacion de funciones con promsa
 // }
 
 // appendFile()
+
+const fs = require('fs')
+
+async function operadorLectura () {
+
+    let lectura = await fs.promises.readFile("prueba.txt", "utf-8")
+    console.log(lectura);
+
+}
+
+operadorLectura()
+
+async function operadorAsincrono () {
+    
+    await fs.promises.writeFile("prueba.txt", "Esto lo estoy redactando en un WRITE")
+    console.log("se creo el archivo");
+
+    
+    await fs.promises.appendFile("prueba.txt", " Data agregada con el operador APPEND")
+    console.log("Agregue nueva data");
+}
+
+
+operadorAsincrono()
 
