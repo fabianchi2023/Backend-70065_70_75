@@ -1,15 +1,9 @@
-// import { Router } from 'express';
-// import fs from 'fs';
-// const **router** = Router();
-
 const express = require('express')
 const router = express.Router()
 const fs = require('fs')
 
 
-
-
-// Ruta para crear un nuevo carrito
+// Ruta POST para crear un carrito nuevo
 
 router.post('/api/carts', (req, res) => {
 
@@ -17,15 +11,14 @@ router.post('/api/carts', (req, res) => {
 
     if (id && products) {
 
-// Escribir el carrito en el archivo "carrito.json"
+// Escribir el carrito en el archivo "carts.json" mediante FS
 
-        fs.readFile('carrito.json', 'utf8', (err, data) => {
+        fs.readFile('./src/carts.json', 'utf8', (error, data) => {
 
-            if (err) {
+            if (error) {
 
-                console.error(err);
-
-                return res.status(500).json({ error: 'Internal Server Error' });
+                console.error(error);
+                return res.status(500).json({ error: 'Error de lectura de archivo' });
 
             }
 
@@ -33,13 +26,12 @@ router.post('/api/carts', (req, res) => {
 
             carts.push({ id, products });
 
-            fs.writeFile('carrito.json', JSON.stringify(carts, null, 2), err => {
+            fs.writeFile('./src/carts.json', JSON.stringify(carts, null, 2), error => {
 
-                if (err) {
+                if (error) {
 
-                    console.error(err);
-
-                    return res.status(500).json({ error: 'Internal Server Error' });
+                    console.error(error);
+                    return res.status(500).json({ error: 'Error de lectura de archivo' });
 
                 }
 
@@ -57,13 +49,13 @@ router.post('/api/carts', (req, res) => {
 
 });
 
-// Ruta para obtener un carrito por su ID
+// Ruta GET para obtener un carrito por su ID
 
 router.get('/carts/:cid', (req, res) => {
 
     const id = req.params.cid;
 
-// Leer el archivo "carrito.json"
+// Leer el archivo "carts.json" mediante FS
 
     fs.readFile('carrito.json', 'utf8', (err, data) => {
 
@@ -71,7 +63,7 @@ router.get('/carts/:cid', (req, res) => {
 
             console.error(err);
 
-            return res.status(500).json({ error: 'Internal Server Error' });
+            return res.status(500).json({ error: 'Error de lectura de archivo' });
 
         }
 
@@ -93,7 +85,7 @@ router.get('/carts/:cid', (req, res) => {
 
 });
 
-// Ruta para agregar un producto a un carrito
+// Ruta POST para agregar un producto a un carrito seleccionados por sus PID y CID.
 
 router.post('/:cid/product/:pid', (req, res) => {
 
@@ -109,15 +101,14 @@ router.post('/:cid/product/:pid', (req, res) => {
 
     };
 
-// Leer el archivo "carrito.json"
+// Leer el archivo "carts.json" mediante FS
 
-    fs.readFile('carrito.json', 'utf8', (err, data) => {
+    fs.readFile('carrito.json', 'utf8', (error, data) => {
 
-        if (err) {
+        if (error) {
 
-            console.error(err);
-
-            return res.status(500).json({ error: 'Internal Server Error' });
+            console.error(error);
+            return res.status(500).json({ error: 'Error de lectura de archivo' });
 
         }
 
@@ -129,15 +120,14 @@ router.post('/:cid/product/:pid', (req, res) => {
 
             carts[cartIndex].products.push(productToAdd);
 
-// Escribir los cambios en el archivo "carrito.json"
+// Escribir los cambios en el archivo "carts.json" mediante FS
 
-            fs.writeFile('carrito.json', JSON.stringify(carts, null, 2), err => {
+            fs.writeFile('carrito.json', JSON.stringify(carts, null, 2), error => {
 
-                if (err) {
+                if (error) {
 
-                    console.error(err);
-
-                    return res.status(500).json({ error: 'Internal Server Error' });
+                    console.error(error);
+                    return res.status(500).json({ error: 'Error de lectura de archivo' });
 
                 }
 
