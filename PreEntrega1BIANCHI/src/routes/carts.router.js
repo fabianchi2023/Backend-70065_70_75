@@ -1,12 +1,17 @@
-import { Router } from 'express';
+// import { Router } from 'express';
+// import fs from 'fs';
+// const **router** = Router();
 
-import fs from 'fs';
+const express = require('express')
+const router = express.Router()
+const fs = require('fs')
 
-const router = Router();
+
+
 
 // Ruta para crear un nuevo carrito
 
-router.post('/carts', (req, res) => {
+router.post('/api/carts', (req, res) => {
 
     const { id, products } = req.body;
 
@@ -150,4 +155,4 @@ router.post('/:cid/product/:pid', (req, res) => {
 
 });
 
-export default router;
+module.exports = router

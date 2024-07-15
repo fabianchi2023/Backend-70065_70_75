@@ -1,7 +1,8 @@
 {
-  "name": "preentrega1bianchi",
+  "name": "repaso-clase6",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node --watch src/app.js"
   },
