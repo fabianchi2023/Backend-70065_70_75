@@ -11,7 +11,7 @@ const fs = require('fs')
 //Ruta GET para obtener los productos del 'products.json' mediante el endpoint '/api/products' y agregado
 // del query limit para limitar la cantidad de registros.
 
-router.get('/api/products', (req, res) => {
+router.get('/', (req, res) => {
 
 // Leer el archivo "products.json" mediante FS
 
@@ -43,14 +43,14 @@ router.get('/api/products', (req, res) => {
 
 // Ruta GET para obtener el producto con el PID proporcionado
 
-router.get('api/products/:pid', (req, res) => {
-
-    const id = req.params.pid;
-
+router.get('/:pid', (req, res) => {
+    
+    const productID = parseInt(req.params.pid);
+    
 // Leer el archivo "products.json" mediante FS
 
     fs.readFile('./src/products.json', 'utf8', (error, data) => {
-
+        
         if (error) {
 
             console.error(error);
@@ -60,7 +60,7 @@ router.get('api/products/:pid', (req, res) => {
 
         const products = JSON.parse(data);
 
-        const product = products.find(product => product.id === parseInt(id));
+        const product = products.find(product => product.id === productID);
 
         if (product) {
 
@@ -78,7 +78,7 @@ router.get('api/products/:pid', (req, res) => {
 
 // Ruta POST para el agregado de nuevo producto:
 
-router.post('/api/products', (req, res) => {
+router.post('/', (req, res) => {
 
     const { title, description, code, price, status, stock, category } = req.body;
 
@@ -101,16 +101,16 @@ router.post('/api/products', (req, res) => {
 
 // Escritura al archivo 'products.json' para el agregado del nuevo producto:
 
-    fs.writeFile('./src/products.json', JSON.stringify(products, null, 2), error => {
+        fs.writeFile('./src/products.json', JSON.stringify(products, null, 2), error => {
 
-        if (error) {
-            console.error(error);
-            return res.status(500).json({ error: 'Error de lectura de archivo' });
-        }
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Error de lectura de archivo' });
+            }
 
-        res.json(newProduct);
+            res.status(201).json(products);
 
-    });
+        });
 
     });
 
@@ -118,12 +118,90 @@ router.post('/api/products', (req, res) => {
 
 // Ruta PUT para actualizar los campos ingresados mediante el body de un producto indicado mediante su PID
 router.put('/:pid', (req,res) => {
-    console.log("Producto actualizado");
+    
+    const productID = parseInt(req.params.pid)
+
+    fs.readFile('./src/products.json', 'utf8', (error, data) => {
+        
+        if (error) {
+
+            console.error(error);
+            return res.status(500).json({ error: 'Error de lectura de archivo' });
+
+        }
+
+        const products = JSON.parse(data);
+
+        const product = products.find(product => product.id === productID);
+
+        if (product) {
+
+           const { title, description, code, price, status, stock, category } = req.body
+           product.title = title
+        //    const product = { title: title, description:description, code:code, price: price,
+        //    status:status, stock:stock, category:category }
+           res.json(product)
+
+        } else {
+
+            res.status(404).json({ error: 'Product not found' });
+
+        }
+
+        fs.writeFile('./src/products.json', JSON.stringify(products, null, 2), error => {
+
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ error: 'Error de lectura de archivo' });
+            }
+    
+            res.status(201).json(product);
+    
+        });
+
+    });
+
+
+    //res.send("Producto actualizado");
+
 })
 
 // Ruta DELETE para eliminar un producto mediante su PID
 router.delete('/:pid', (req, res)=>{
-    console.log("Producto eliminado");
+    const productID = parseInt(req.params.pid)
+    
+    fs.readFile('./src/products.json', 'utf8', (error, data) => {
+        
+        if (error) {
+
+            console.error(error);
+            return res.status(500).json({ error: 'Error de lectura de archivo' });
+
+        }
+
+        let products = JSON.parse(data);
+        
+        if (productID <= products.length){
+           
+            products = products.filter((product) => product.id !== productID)
+            fs.writeFile('./src/products.json', JSON.stringify(products, null, 2), error => {
+
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ error: 'Error de lectura de archivo' });
+                }
+    
+                //res.status(201).json(products);
+                res.status(201).json({msg: "Product deleted"})
+    
+            });
+        
+        } else{
+            return res.status(500).json({ msg: 'Incorrect ID Product' });
+        }
+  
+    })
+
 })
 
 module.exports = router

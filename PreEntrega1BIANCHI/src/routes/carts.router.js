@@ -5,7 +5,7 @@ const fs = require('fs')
 
 // Ruta POST para crear un carrito nuevo
 
-router.post('/api/carts', (req, res) => {
+router.post('/', (req, res) => {
 
     const { id, products } = req.body;
 
@@ -51,15 +51,15 @@ router.post('/api/carts', (req, res) => {
 
 // Ruta GET para obtener un carrito por su ID
 
-router.get('/carts/:cid', (req, res) => {
+router.get('/:cid', (req, res) => {
 
-    const id = req.params.cid;
+    const cartID = parseInt(req.params.cid);
 
 // Leer el archivo "carts.json" mediante FS
 
-    fs.readFile('carrito.json', 'utf8', (err, data) => {
+    fs.readFile('./src/carts.json', 'utf8', (error, data) => {
 
-        if (err) {
+        if (error) {
 
             console.error(err);
 
@@ -69,7 +69,7 @@ router.get('/carts/:cid', (req, res) => {
 
         const carts = JSON.parse(data);
 
-        const cart = carts.find(cart => cart.id === id);
+        const cart = carts.find(cart => cart.id === cartID);
 
         if (cart) {
 
@@ -90,20 +90,17 @@ router.get('/carts/:cid', (req, res) => {
 router.post('/:cid/product/:pid', (req, res) => {
 
     const cartId = req.params.cid;
-
     const productId = req.params.pid;
-
     const productToAdd = {
 
         product: productId,
-
         quantity: 1
 
     };
 
 // Leer el archivo "carts.json" mediante FS
 
-    fs.readFile('carrito.json', 'utf8', (error, data) => {
+    fs.readFile('./src/carts.json', 'utf8', (error, data) => {
 
         if (error) {
 
@@ -122,7 +119,7 @@ router.post('/:cid/product/:pid', (req, res) => {
 
 // Escribir los cambios en el archivo "carts.json" mediante FS
 
-            fs.writeFile('carrito.json', JSON.stringify(carts, null, 2), error => {
+            fs.writeFile('./src/carts.json', JSON.stringify(carts, null, 2), error => {
 
                 if (error) {
 
@@ -131,7 +128,7 @@ router.post('/:cid/product/:pid', (req, res) => {
 
                 }
 
-                res.status(200).json({ message: 'Product added to cart successfully' });
+                res.status(200).json({ message: 'Product added to cart' });
 
             });
 

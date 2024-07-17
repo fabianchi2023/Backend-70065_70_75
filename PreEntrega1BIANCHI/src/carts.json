@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": 1,
+    "products": [
+      {
+        "id": 1,
+        "title": "Manzana",
+        "description": "Verde",
+        "code": 333,
+        "price": 1200,
+        "status": true,
+        "stock": 300,
+        "category": "Frutas"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "products": [
+      {
+        "id": 1,
+        "title": "Coca Cola",
+        "description": "Zero",
+        "code": 444,
+        "price": 2400,
+        "status": true,
+        "stock": 50,
+        "category": "Gaseosas"
+      }
+    ]
+  }
+]
