@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Fideos",
+    "description": "Moñito",
+    "code": "111",
+    "price": 1200,
+    "status": true,
+    "stock": 100,
+    "category": "Alimentos"
+  },
+  {
+    "id": 2,
+    "title": "Fideos",
+    "description": "Tirabuzon",
+    "code": "222",
+    "price": 1300,
+    "status": true,
+    "stock": 100,
+    "category": "Alimentos"
+  },
+  {
+    "id": 3,
+    "title": "Coca Cola",
+    "description": "Zero",
+    "code": "333",
+    "price": 2600,
+    "status": true,
+    "stock": 100,
+    "category": "Gaseosas"
+  }
+]
