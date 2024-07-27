@@ -3,9 +3,8 @@
 ## Proyecto: E-Commerce "MundoCamisetas"
 
 En esta etapa del proyecto estaremos desarrollando la parte BACKEND del e-commerce de la web MUNDOCAMISETAS.
-En la parte I iniciamos con los metodos y pruebas con POSTMAN, agregado de motor de plantillas y base de datos con MONGO.
-
-Incorporacion de handlebars y websocket.
+En la parte I iniciamos con los metodos y pruebas con POSTMAN.
+En la parte II realizamos la incorporacion de handlebars y websocket para la comunicacion.
 
 ## Tabla de Contenidos
 1. [Instalación](#instalación)

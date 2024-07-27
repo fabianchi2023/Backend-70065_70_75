@@ -38,5 +38,15 @@
     "status": true,
     "stock": 50,
     "category": "Fuego"
+  },
+  {
+    "id": 5,
+    "title": "Villavicencio",
+    "description": "Gasificada",
+    "code": "666",
+    "price": 900,
+    "status": true,
+    "stock": 10000,
+    "category": "Bebidas sin alcohol"
   }
 ]
