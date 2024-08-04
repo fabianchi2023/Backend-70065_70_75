@@ -1,5 +1,5 @@
 
-import express, { json, urlencoded } from 'express'
+import express from 'express'
 import cartsRouter from './routes/carts.router.js'
 import productsRouter from './routes/products.router.js'
 import viewsRouter from './routes/views.router.js'
@@ -31,9 +31,11 @@ const httpServer = app.listen(PORT, ()=> console.log(`Server running on PORT ${P
 const socketServer = new Server(httpServer)
 
 socketServer.on('connection', socket=> {
-    console.log("nuevo cliente conectado")
+    console.log("Nuevo cliente conectado")
 
-    socket.on('message', data =>{
-        console.log(`Recepcion datos: ${data}`)
+    socket.on('newProduct', (data) =>{
+        const newProduct = data;
+        socketServer.emit('datos', newProduct)
     })
+    
 })

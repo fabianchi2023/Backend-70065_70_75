@@ -10,6 +10,4 @@ const router = express.Router()
         res.render('realTimeProducts')
     })
 
-
-
 export default router

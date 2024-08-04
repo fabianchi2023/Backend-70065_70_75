@@ -48,5 +48,25 @@
     "status": true,
     "stock": 10000,
     "category": "Bebidas sin alcohol"
+  },
+  {
+    "id": 6,
+    "title": "Opera",
+    "description": "Familiar",
+    "code": "777",
+    "price": 1000,
+    "status": true,
+    "stock": 500,
+    "category": "Galletitas"
+  },
+  {
+    "id": 7,
+    "title": "Merengadas",
+    "description": "Familiar",
+    "code": "888",
+    "price": 1000,
+    "status": true,
+    "stock": 500,
+    "category": "Galletitas"
   }
 ]

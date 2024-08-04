@@ -2,12 +2,6 @@ import express from 'express'
 import { readFile, writeFile } from 'fs'
 const router = express.Router()
 
-// const prueba = []
-
-// router.get('/prueba', (req,res)=> {
-//     res.json(prueba)
-// })
-
 //Ruta GET para obtener los productos del 'productos.json' mediante el endpoint '/api/products' y agregado
 // del query limit para limitar la cantidad de registros.
 
@@ -41,7 +35,7 @@ router.get('/:pid', (req, res) => {
     
     const productID = parseInt(req.params.pid);
     
-// Leer el archivo "productos.json" mediante FS
+    // Leer el archivo "productos.json" mediante FS
 
     readFile('./src/productos.json', 'utf8', (error, data) => {
         
@@ -69,8 +63,8 @@ router.post('/', (req, res) => {
 
     const { title, description, code, price, status, stock, category } = req.body;
 
-// Lectura del archivo 'productos.json' para identificar la longitud del array que marcara la automatizacion
-// en la asignacion del ID del nuevo producto.
+    // Lectura del archivo 'productos.json' para identificar la longitud del array que marcara la automatizacion
+    // en la asignacion del ID del nuevo producto.
 
     readFile('./src/productos.json', 'utf8', (error, data) => { 
 
@@ -102,6 +96,7 @@ router.post('/', (req, res) => {
 });
 
 // Ruta PUT para actualizar los campos ingresados mediante el body de un producto indicado mediante su PID
+
 router.put('/:pid', (req,res) => {
 
     readFile('./src/productos.json', 'utf8', (error, data) => { 
@@ -142,6 +137,7 @@ router.put('/:pid', (req,res) => {
 })
 
 // Ruta DELETE para eliminar un producto mediante su PID
+
 router.delete('/:pid', (req, res)=>{
     const productID = parseInt(req.params.pid)
     readFile('./src/productos.json', 'utf8', (error, data) => { 
