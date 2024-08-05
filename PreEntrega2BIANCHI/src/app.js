@@ -35,7 +35,8 @@ socketServer.on('connection', socket=> {
 
     socket.on('newProduct', (data) =>{
         const newProduct = data;
-        socketServer.emit('datos', newProduct)
+        socketServer.emit('dataForm', newProduct)
     })
+
     
 })

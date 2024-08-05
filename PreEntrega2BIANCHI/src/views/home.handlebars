@@ -9,8 +9,12 @@
     <h1>Pre Entrega 2</h1>
     <h2>Lista de productos</h2>
 
-        {{!-- Cargar los productos del productos.json --}}
-
+        {{#each products}}
+        <ul>
+            <li>Producto:{{this.title}}</li>
+            <p>Descripcion:{{this.description}}</p>
+        </ul>
+        {{/each}}
 
 </body>
 <script src="/socket.io/socket.io.js"></script>
