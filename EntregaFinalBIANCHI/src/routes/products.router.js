@@ -52,25 +52,6 @@ router.get('/:pid', async (req, res) => {
             res.status(500).json({ message: "Producto inexistente" });
         }
     })
-    // const productID = parseInt(req.params.pid);
-
-    // readFile('./src/productos.json', 'utf8', (error, data) => {
-        
-    //     if (error) {
-    //         console.error(error);
-    //         return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //     }
-
-    //     const products = JSON.parse(data);
-    //     const product = products.find(product => product.id === productID);
-
-    //     if (product) {
-    //         res.json(product);
-    //     } else {
-    //         res.status(404).json({ error: 'Producto no encontrado' });
-    //     }
-
-    // });
 
 router.post('/', async (req, res) => {
 
@@ -79,99 +60,51 @@ router.post('/', async (req, res) => {
     let newProduct = await productsModel.create({title, description, code, price, status, stock,category})
     res.send ({result:"producto creado", payload: newProduct})
     console.log(newProduct);
-    
-    // readFile('./src/productos.json', 'utf8', (error, data) => { 
 
-    //     if (error) {
-    //         console.error(error)
-    //         return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //     }
-
-    //     const products = JSON.parse(data);
-    //     const id = products.reduce((id, product) => {
-    //       return product.id > id ? product.id : id}, 0) + 1;
-        
-    //     const newProduct = { id, title, description, code, price, status, stock, category };
-    //     products.push(newProduct);
-
-    //     writeFile('./src/productos.json', JSON.stringify(products, null, 2), error => {
-
-    //         if (error) {
-    //             console.error(error);
-    //             return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //         }
-    //         res.status(201).json(products);
-    //     });
-
-    // });
 
 });
 
 
-router.put('/:pid', (req,res) => {
+router.put('/:pid', async (req,res) => {
 
-    // readFile('./src/productos.json', 'utf8', (error, data) => { 
+    try {
+        let pid = req.params.pid        
+        const productUpdate = await productsModel.findById(pid)
 
-    //     if (error) {
-    //         console.error(error)
-    //         return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //     }
+        if(!productUpdate){
+            res.status(404).json({message: "Producto inexistente"})
+        }
 
-    //     const products = JSON.parse(data);
+        const {title, description, code, price, status, stock, category} =req.body
+
+        productUpdate.title = title ?? productUpdate.title
+        productUpdate.description = description ?? productUpdate.description
+        productUpdate.code = code ?? productUpdate.code
+        productUpdate.price = price ?? productUpdate.price
+        productUpdate.status = status ?? productUpdate.status
+        productUpdate.stock = stock ?? productUpdate.stock
+        productUpdate.category = category ?? productUpdate.category
+
+        let result = await productsModel.updateOne({_id:pid}, productUpdate)
+        res.send({result: "success", payload: result} )
+
+    } catch (error) {
+        res.status(500).json({ message: "Producto inexistente" });
+    }
     
-    //     const productID = parseInt(req.params.pid)
-    //     const productIndex = products.findIndex(product => product.id === productID);
-
-    //     if (productIndex !== -1){
-    //         const productUpdate = products[productIndex]
-    //         const {title, description, code, price, status, stock, category} =req.body
-    //         productUpdate.title = title ?? productUpdate.title
-    //         productUpdate.description = description ?? productUpdate.description
-    //         productUpdate.code = code ?? productUpdate.code
-    //         productUpdate.price = price ?? productUpdate.price
-    //         productUpdate.status = status ?? productUpdate.status
-    //         productUpdate.stock = stock ?? productUpdate.stock
-    //         productUpdate.category = category ?? productUpdate.category
-
-    //         writeFile('./src/productos.json', JSON.stringify(products, null, 2), error => {
-
-    //             if (error) {
-    //                 console.error(error);
-    //                 return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //             }
-    //             res.status(201).json({msg: `El producto # ${productUpdate.id} ha sido actualizado correctamente!`});
-    //         });
-    //     } else {
-    //         res.status(404).json({ error: 'Producto no encontrado' })
-    //     }
-    // })
 })
 
 
-router.delete('/:pid', (req, res)=>{
-    let deletedProduct = productsModel.deletOne(req.params.pid)
-    console.log(deletedProduct);
-    res.json({ message: `Producto con id ${req.params.pid} eliminado` })
-    
-    // readFile('./src/productos.json', 'utf8', (error, data) => { 
-
-    //     if (error) {
-    //         console.error(error)
-    //         return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //     }
-    //     let products = JSON.parse(data);
-    //     products = products.filter(product => product.id !== productID)
-    //     writeFile('./src/productos.json', JSON.stringify(products, null, 2), error => {
-
-    //         if (error) {
-    //             console.error(error);
-    //             return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //         }
-            
-    //         res.status(201).json({msg: `El producto #${productID} ha sido eliminado correctamente`})
-
-    //     })
-    // })
+router.delete('/:pid', async (req, res)=>{
+    try {
+        let deletedProduct  = req.params.pid
+        console.log(deletedProduct);
+        
+        let result = await productsModel.deleteOne({ _id: deletedProduct })
+        res.send({result: "succes", payload:result})
+    } catch (error) {   
+        res.status(500).json({ message: "Producto inexistente" })
+    }
 })
 
 export default router
