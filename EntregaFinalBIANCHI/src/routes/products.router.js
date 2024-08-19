@@ -14,9 +14,6 @@ router.get('/', async (req, res) => {
         res.render('home', result)
         console.log(result);
         
-    // let products = await productsModel.paginate({limit:10, page:2})
-    // console.log(products);
-    ////COMO LLEVO ESTO AL HANDLEBARS????
     // res.send({ 
     //     status: "success", 
     //     payload: products.docs,
