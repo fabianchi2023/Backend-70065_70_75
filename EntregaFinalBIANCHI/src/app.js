@@ -37,21 +37,21 @@ const enviroment = async () => {
 
 enviroment()
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-})
+// app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+// })
 
 //Configuracion del socketServer
-// const httpServer = app.listen(PORT, ()=> console.log(`Server running on PORT ${PORT}`))
-// const socketServer = new Server(httpServer)
+const httpServer = app.listen(PORT, ()=> console.log(`Server running on PORT ${PORT}`))
+const socketServer = new Server(httpServer)
 
-// socketServer.on('connection', socket=> {
-//     console.log("Nuevo cliente conectado")
+socketServer.on('connection', socket=> {
+    console.log("Nuevo cliente conectado")
 
-//     socket.on('newProduct', (data) =>{
-//         const newProduct = data;
-//         socketServer.emit('dataForm', newProduct)
-//     })
+    socket.on('newProduct', (data) =>{
+        const newProduct = data;
+        socketServer.emit('dataForm', newProduct)
+    })
 
-// })
+})
 

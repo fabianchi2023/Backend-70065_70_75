@@ -5,35 +5,56 @@ const router = express.Router()
 
 router.get('/', async (req, res) => {
 
-    let products = await productsModel.find()
-    console.log(products);
-    
-    res.send({ 
-        status: "success", 
-        payload: products.docs,
-        totalPages: products.Pages,
-        prevPage: products.prevPage,
-        nextPage: products.nextPage,
-        page: products.page,
-        hasPrevPage: products.hasPrevPage,
-        hasNextPage: products.hasNextPage,
-        prevLink: products.prevLink = products.hasPrevPage ? `http://localhost:8080/?page=${products.prevPage}` : null,
-        nextLink: products.nextLink = products.hasNextPage ? `http://localhost:8080/?page=${products.nextPage}` : null,
-    })
+        let page = parseInt(req.query.page);
+        if (!page) page = 1;
+        let result = await productsModel.paginate({}, { page, limit: 5, lean: true })
+        result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : '';
+        result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : '';
+        result.isValid = !(page <= 0 || page > result.totalPages)
+        res.render('home', result)
+        console.log(result);
+        
+    // let products = await productsModel.paginate({limit:10, page:2})
+    // console.log(products);
+    ////COMO LLEVO ESTO AL HANDLEBARS????
+    // res.send({ 
+    //     status: "success", 
+    //     payload: products.docs,
+    //     totalPages: products.Pages,
+    //     prevPage: products.prevPage,
+    //     nextPage: products.nextPage,
+    //     page: products.page,
+    //     hasPrevPage: products.hasPrevPage,
+    //     hasNextPage: products.hasNextPage,
+    //     prevLink: products.prevLink = products.hasPrevPage ? `http://localhost:8080/?page=${products.prevPage}` : null,
+    //     nextLink: products.nextLink = products.hasNextPage ? `http://localhost:8080/?page=${products.nextPage}` : null,
+    // })
 
-        const limit = req.query.limit;
+    // const limit = req.query.limit;
 
-        if (limit) {
-          res.json(products.slice(0, limit));
-        } else {
-          res.json(products);
-        }
+    // if (limit) {
+    //     res.json(result.slice(0, limit));
+    // } else {
+    //     res.send(result);
+    // }
 
     });
 
+router.get('/:pid', async (req, res) => {
 
-router.get('/:pid', (req, res) => {
-    
+        try {
+            const wantedProduct = await productsModel.findById(req.params.pid);
+            if (wantedProduct) {
+                res.status(200).json(wantedProduct);
+                console.log(wantedProduct);
+                
+            } else {
+                res.status(404).json({ message: "Producto inexistente" });
+            }
+        } catch (error) {
+            res.status(500).json({ message: "Producto inexistente" });
+        }
+    })
     // const productID = parseInt(req.params.pid);
 
     // readFile('./src/productos.json', 'utf8', (error, data) => {
@@ -54,12 +75,14 @@ router.get('/:pid', (req, res) => {
 
     // });
 
-});
-
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
     const { title, description, code, price, status, stock, category } = req.body;
 
+    let newProduct = await productsModel.create({title, description, code, price, status, stock,category})
+    res.send ({result:"producto creado", payload: newProduct})
+    console.log(newProduct);
+    
     // readFile('./src/productos.json', 'utf8', (error, data) => { 
 
     //     if (error) {
@@ -129,7 +152,10 @@ router.put('/:pid', (req,res) => {
 
 
 router.delete('/:pid', (req, res)=>{
-    const productID = parseInt(req.params.pid)
+    let deletedProduct = productsModel.deletOne(req.params.pid)
+    console.log(deletedProduct);
+    res.json({ message: `Producto con id ${req.params.pid} eliminado` })
+    
     // readFile('./src/productos.json', 'utf8', (error, data) => { 
 
     //     if (error) {

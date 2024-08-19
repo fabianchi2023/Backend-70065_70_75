@@ -1,9 +1,13 @@
 import express from 'express'
+import productsModel from '../models/products.model.js'
 
 const router = express.Router()
 
-    router.get('/', (req, res) => {
-            res.render('home')
+    router.get('/', async (req, res) => {
+            let products = await productsModel.find().lean()
+            // console.log(products);
+            
+            res.render('home', ({products}))
         })
 
     router.get('/realtimeproducts', (req, res)=>{

@@ -12,6 +12,8 @@ const router = express.Router()
             }
     
             let products = JSON.parse(data)
+            console.log(products);
+            
             res.render('home', ({products}))
         })
         
