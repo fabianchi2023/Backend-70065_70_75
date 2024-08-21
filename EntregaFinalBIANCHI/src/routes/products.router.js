@@ -7,12 +7,11 @@ router.get('/', async (req, res) => {
 
         let page = parseInt(req.query.page);
         if (!page) page = 1;
-        let result = await productsModel.paginate({}, { page, limit: 5, lean: true })
+        let result = await productsModel.paginate({}, { page, limit: 9, lean: true })
         result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : '';
         result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : '';
         result.isValid = !(page <= 0 || page > result.totalPages)
         res.render('home', result)
-        console.log(result);
         
     // res.send({ 
     //     status: "success", 
@@ -51,7 +50,7 @@ router.get('/:pid', async (req, res) => {
         } catch (error) {
             res.status(500).json({ message: "Producto inexistente" });
         }
-    })
+    }) 
 
 router.post('/', async (req, res) => {
 

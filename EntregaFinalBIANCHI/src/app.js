@@ -37,10 +37,6 @@ const enviroment = async () => {
 
 enviroment()
 
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// })
-
 //Configuracion del socketServer
 const httpServer = app.listen(PORT, ()=> console.log(`Server running on PORT ${PORT}`))
 const socketServer = new Server(httpServer)

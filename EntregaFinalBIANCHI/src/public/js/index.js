@@ -1,5 +1,5 @@
 const socket = io()
-import productsModel from "../../models/products.model"
+// import productsModel from "../../models/products.model"
 
 //Obtencion y emision de los datos ingresados por FORM:
 let formulario = document.getElementById("productForm")
@@ -10,6 +10,7 @@ formulario.addEventListener("submit", evento => {
     const objetoDatos = Object.fromEntries(datosFormulario.entries())
     evento.target.reset()
     socket.emit('newProduct', objetoDatos)
+    
 
 })
 
@@ -24,10 +25,12 @@ socket.on('dataForm', (newProduct) => {
     
  )
 
+//  const addProduct = document.getElementById('addProduct');
 
-
-
-
-
-
-
+//     addProduct.addEventListener('click', async () => {
+//             try {
+                
+//             } catch (error) {
+                
+//             }
+//         })
