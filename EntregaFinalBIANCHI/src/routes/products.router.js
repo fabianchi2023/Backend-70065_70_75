@@ -6,35 +6,27 @@ const router = express.Router()
 router.get('/', async (req, res) => {
 
         let page = parseInt(req.query.page);
+        let limit = parseInt(req.query.limit)
+
         if (!page) page = 1;
-        let result = await productsModel.paginate({}, { page, limit: 9, lean: true })
-        result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : '';
-        result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : '';
-        result.isValid = !(page <= 0 || page > result.totalPages)
-        res.render('home', result)
+        if(!limit) limit = 10
         
-    // res.send({ 
-    //     status: "success", 
-    //     payload: products.docs,
-    //     totalPages: products.Pages,
-    //     prevPage: products.prevPage,
-    //     nextPage: products.nextPage,
-    //     page: products.page,
-    //     hasPrevPage: products.hasPrevPage,
-    //     hasNextPage: products.hasNextPage,
-    //     prevLink: products.prevLink = products.hasPrevPage ? `http://localhost:8080/?page=${products.prevPage}` : null,
-    //     nextLink: products.nextLink = products.hasNextPage ? `http://localhost:8080/?page=${products.nextPage}` : null,
-    // })
+        let result = await productsModel.paginate({}, { page, limit, lean: true })
+        
+        res.send({ 
+        status: "success", 
+        payload: result.docs,
+        totalPages: result.Pages,
+        prevPage: result.prevPage,
+        nextPage: result.nextPage,
+        page: result.page,
+        hasPrevPage: result.hasPrevPage,
+        hasNextPage: result.hasNextPage,
+        prevLink: result.prevLink = result.hasPrevPage ? `http://localhost:8080/api/products?page=${result.prevPage}` : null,
+        nextLink: result.nextLink = result.hasNextPage ? `http://localhost:8080/api/products?page=${result.nextPage}` : null,
+        })
 
-    // const limit = req.query.limit;
-
-    // if (limit) {
-    //     res.json(result.slice(0, limit));
-    // } else {
-    //     res.send(result);
-    // }
-
-    });
+})
 
 router.get('/:pid', async (req, res) => {
 

@@ -42,7 +42,7 @@ const httpServer = app.listen(PORT, ()=> console.log(`Server running on PORT ${P
 const socketServer = new Server(httpServer)
 
 socketServer.on('connection', socket=> {
-    console.log("Nuevo cliente conectado")
+    // console.log("Nuevo cliente conectado")
 
     socket.on('newProduct', (data) =>{
         const newProduct = data;

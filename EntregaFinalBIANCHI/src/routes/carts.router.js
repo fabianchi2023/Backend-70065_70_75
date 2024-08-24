@@ -4,55 +4,32 @@ import cartModel from '../models/carts.model.js'
 const router = express.Router()
 
 
-router.post('/', (req, res) => {
-    const {products} = req.body
-    // readFile('./src/carrito.json', 'utf8', (error, data) => { 
-    //     if (error) {
-    //         console.error(error)
-    //         return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //     }
-    //     const carts = JSON.parse(data);
-    //     const id = carts.reduce((id, cart) => {
-    //       return cart.id > id ? cart.id : id}, 0) + 1;
-        
-    //     const newCart = { id, products};
-    //     carts.push(newCart);
+router.get ('/', async(req,res)=>{
+    let carts = await cartModel.find()
+    res.json(carts)
+})
+router.post('/', async(req, res) => {
+    
+    let {products} = req.body
+    let cartOne = await cartModel.create({products})
+    res.send({result: "Success", payload: cartOne})
 
-    //     // Escritura al archivo 'products.json' para el agregado del nuevo producto:
-
-    //     writeFile('./src/carrito.json', JSON.stringify(carts, null, 2), error => {
-
-    //         if (error) {
-    //             console.error(error);
-    //             return res.status(500).json({ error: 'Error de lectura de archivo' });
-    //         }
-    //         res.status(201).json(carts);
-    //     });
-
-    // });
 
 })
 
-router.get('/:cid', (req, res) => {
+router.get('/:cid', async(req, res) => {
 
-    const cartID = parseInt(req.params.cid);
-
-    // readFile('./src/carrito.json', 'utf8', (error, data) => {
-
-    //     if (error) {
-    //         console.error(err)
-    //         return res.status(500).json({ error: 'Error de lectura de archivo' })
-    //     }
-
-    //     const carts = JSON.parse(data);
-    //     const cart = carts.find(cart => cart.id === cartID)
-
-    //     if (cart) {
-    //         res.json(cart)
-    //     } else {
-    //         res.status(404).json({ error: 'Carrito no encontrado' })
-    //     }
-    // });
+    try {
+        const wantedCart = await cartModel.findById(req.params.cid)
+        if (wantedCart) {
+            res.status(200).send(wantedCart)
+            
+        } else {
+            res.status(404).json({ message: "Carrito inexistente" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Carrito inexistente" })
+    }
 })
 
 router.post('/:cid/product/:pid', (req, res) => {
@@ -97,5 +74,18 @@ router.post('/:cid/product/:pid', (req, res) => {
     //     }
     // })
 })
+
+router.delete('/:cid', async (req, res) => {
+    try {
+        let deletedProducts  = req.params.cid
+        
+        
+        let result = await cartModel.deleteOne({ _id: deletedProducts })
+        res.send({result: "succes", payload:result})
+    } catch (error) {   
+        res.status(500).json({ message: "Carrito inexistente" })
+    }
+})
+
 
 export default router

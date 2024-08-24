@@ -29,9 +29,9 @@ En la entrega final, modificamos la persistencia de archivos con la implementaci
 
 ## Uso
 ### Endpoints RAIZ de la API
-**GET** `/api/products`: Obtiene la lista de pproductos.\
-**GET** `/api/carts`: Obtiene la lista de carritos.\
-**GET** `/`: Obtiene mediante el motor de plantillas 'Handlebars' la lista de productos\
+**GET** `/api/products`: Obtiene la lista de pproductos en formato JSON.\
+**GET** `/api/carts`: Obtiene la lista de carritos en formato JSON\
+**GET** `/products`: Obtiene mediante el motor de plantillas 'Handlebars' la lista de productos\
 **GET** `/realtimeproducts`: Obtiene el formulario para el ingreso de un nuevo producto y mostrarlo en la misma pantalla. Todo con Handlebars.
 
 
@@ -77,6 +77,28 @@ A continuacion, imágenes con las pruebas realizadas segun las rúbricas de la P
 
 #Get de la ruta "/realTimeProducts": Formulario para el ingreso y muestra en pantalla de un nuevo producto.
 ![realTimeProducts](src/public/img/realTimeProductsHandlebars.png)
+
+-------------------------------
+
+**Pruebas con POSTMAN y vista web de los JSON generados. Uso de paginado, queryparams y creacion de carritos.**
+
+#GetProductsPageLimitJSON
+![GetProductsPageLimitJSON](src/public/img/GetProductsPageLimitJSON.png)
+
+#GetProductsPageLimitView
+![GetProductsPageLimitView](src/public/img/GetProductsPageLimitView.png)
+
+#GetProductsPaginate
+![GetProductsPaginate](src/public/img/getProductsPaginate.png)
+
+#GetCartMongoByID
+![GetCartMongoByID](src/public/img/GetCartMongoByID.png)
+
+#GetCartsJSON
+![GetCartsJSON](src/public/img/GetCarts.png)
+
+#PostNewCart
+![PostNewCart](src/public/img/PostNewCart.png)
 
 
 ## Autores y reconocimientos

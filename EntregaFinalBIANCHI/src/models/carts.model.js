@@ -8,8 +8,7 @@ const cartSchema = mongoose.Schema({
          product: {type: mongoose.Schema.Types.ObjectId, ref: "products"},
          quantity: {type: Number, default: 1}
         }
-    ],
-    default:[]
+    ]
 })
 const cartModel = mongoose.model(cartCollection, cartSchema)
 
